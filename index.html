@@ -2,393 +2,162 @@
 <html>
 	<head>
 		<meta charset='UTF-8'>
-		<!--<link href='./style.css' rel='stylesheet' type='text/css'>-->
-		<script src='./jquery-3.2.0.min.js'></script>
-		<script src='./funs.js'></script>
-		<style>
-			@font-face { 
-				font-family: digital;
-				src:url('./fonts/DS-DIGI.TTF');
-			}  
-			@font-face {
-				font-family: kawaii;
-				src:url('./fonts/FZ-CATOON.TTF');
-			}
-			body {
-				background:url('./yande.re 365763 landscape smile_(qd4nsvik) wallpaper.jpg') fixed no-repeat center;
-				-webkit-overflow-scrolling: touch;
-			}
-			div,article {position:relative;}
-			#head {
-				width:60em;
-				height:15em;margin:auto;
-				background:-webkit-linear-gradient(top,rgba(0,0,0,0) 60%,#ffffff 60%,#ffffff 80%,rgba(255,255,255,0.4) 80%);
-				background:-moz-linear-gradient(top,rgba(0,0,0,0) 60%,#ffffff 60%,#ffffff 80%,rgba(255,255,255,0.4) 80%);
-				background:linear-gradient(to bottom,rgba(0,0,0,0) 60%,#ffffff 60%,#ffffff 80%,rgba(255,255,255,0.4) 80%);
-			}
-			#header {
-				width:9em;height:9em;
-				border-radius:4.5em;
-				background-color:#FFFFFF;
-				top:3em;left:4em;
-			}
-			#header > img {
-				max-width:9em;
-				border-radius:
-			}
-			#wtitle {
-				left:5em;bottom:1em;
-				font-size:3em;color:#00bfff;
-				font-family:kawaii,微软雅黑,sans-serif;
-			}
-			#menus {
-				bottom:0.5em;text-indent:2em;
-				font-family:kawaii,微软雅黑,sans-serif;
-			}
-			#leftsidebar,#main,#rightsidebar {
-				float:left;
-				margin:0.3em;
-			}
-			#mp{
-				width:60em;
-				margin:auto;
-				overflow:hidden;
-			}
-			#leftsidebar,#rightsidebar {
-				width:25%;
-			}
-			#leftsidebar {
-				padding:1%;border-radius:5%;box-shadow:0.5em 0.5em 1em #888888;
-				background:rgba(255,255,255,0.3);text-indent:1.5em;
-			}
-			#rightsodebar {
-				float:right;
-			}
-			#main {
-				width:70%;
-			}
-			.articleTitle {
-				background:-webkit-linear-gradient(top,#ffe4c4 60%,#ffffff 60%,#ffffff 80%,rgba(255,255,255,0.4) 80%);
-				background:-moz-linear-gradient(top,#ffe4c4 60%,#ffffff 60%,#ffffff 80%,rgba(255,255,255,0.4) 80%);
-				background:linear-gradient(to bottom,#ffe4c4 60%,#ffffff 60%,#ffffff 80%,rgba(255,255,255,0.4) 80%);
-				height:10em;
-				width:100%;text-indent:2em;
-				margin:1em;font-family:sans-serif;
-				border-radius:1em 5em 5em 1em;
-				text-decoration: none;overflow:inherit;
-				box-shadow:0.1em 0.1em 5px #888888;
-			}
-			.articleTitle > .atitle {
-				font-size:3em;top:1em;
-				color:black;/*float:left;*/
-				text-decoration: none;
-			}
-			.articleTitle > .pubdate, .articleTitle > .pubtime {
-				display:none;
-			}
-			#selpage .selpg {
-				font-size:2em;
-				margin:0.5em;
-			}
-			a {
-				text-decoration:none;
-			}
-			#main > #nh {
-				position:fixed;
-				height:20%;
-				left:0;
-				text-align:center;
-			}
-			.backpg:before {
-				content: "< 返回";<!---->
-				font-family:微软雅黑,sans-serif;
-				display: block;
-				font-size:2em;
-				color:black;
-			}
-			.backindex:before {
-				content: "< 首页";<!---->
-				font-family:微软雅黑,sans-serif;
-				display: block;
-				font-size:2em;
-				color:black;
-			}
-			.back {
-				width:12em;
-				display: block;
-				color:black;
-			}
-			.articleTitle > .index {
-				font-size:8em;float:right;
-				font-family:digital,sans-serif;
-				background:url('http://www.pc18.com/uploadfile/2017/0216/20170216102047515.png') no-repeat center;
-				border-radius:50%;color:rgba(0,0,0,0.2);
-				height:100%;text-indent:0;
-				text-align:center;right:0;
-			}
-			.articleTitle > .index:hover {
-				color:black;
-			}
-			.index .n0:before {
-				content: "0";
-			}
-			.index .n1:before {
-				content: "1";
-			}
-			.index .n2:before {
-				content: "2";
-			}
-			.index .n3:before {
-				content: "3";
-			}
-			.index .n4:before {
-				content: "4";
-			}
-			.index .n5:before {
-				content: "5";
-			}
-			.index .n6:before {
-				content: "6";
-			}
-			.index .n7:before {
-				content: "7";
-			}
-			.index .n8:before {
-				content: "8";
-			}
-			.index .n9:before {
-				content: "9";
-			}
-			article {
-				color:rgb(255,255,255);
-				background:rgba(0,0,0,0.5);
-				padding:2em;
-				border-radius:1em;
-			}
-			.selpg {
-				border:thick solid blue;
-				background:skyblue;
-				padding-left:0.5em;
-				padding-right:0.5em;
-			}
-		</style>
-		<script>
-			var lsb,rsb;
-			$(window).scroll(function(){
-				lsb.animate({
-					top:$(window).scrollTop()+"px"
-				},50);
-			});
-			$(document).ready(function(){
-				var main=$("#main");
-				var MAX_ARTICLE_PER_PAGE=10;
-				lsb=$("#leftsidebar");
-				rsb=$("#rightsidebar");
-				var cURL=window.location.toString();
-				var currentPAGE=1;
-				function changeToArticle(id){
-					lsb.toggle();
-					var nh,article,title,id,viewtimes,pubdate,pubtime;
-					$.get("page.php?aid="+id,function(data){
-						if(data){
-						data=eval(data)[0];
-						article=data.article;
-						id=data.id;
-						title=data.title;
-						window.history.pushState({},0,'#article/'+id+"/"+title+'.html');
-						viewtimes=data.viewtimes;
-						pubdata=data.pubdata;
-						pubtime=data.pubtime;
-						$("#head").toggle();
-						lsb.toggle();rsb.toggle();
-						main.css("borderRadius","1em").css("padding","2em");
-						var h=elems("div.atitle")+title+"</div>";
-						h+=elems("div.index")+elems("span.ids.n"+id/10)+"</span>"+elems("span.ids.n"+id%10)+"</span>"+"</div>";
-						h+=elems("div.pubdate")+pubdate+"</div>";
-						h+=elems("div.pubtime")+pubtime+"</div>";
-						main.append("<div id='nh' class='articleTitle' "+
-							"style='left:0;right:0;position:fixed;margin:auto;height:20%;backgorund:"+
-							"linear-gradient(to bottom,#ffe4c4 60%,#ffffff 60%,#ffffff 80%,rgba(255,255,255,0.4) 80%);'>"
-							+h+"<a href='#page/1.html'>"+
-							"<div id='back' class='back backindex'></div></a></div><div id='article' style='margin:1em;'></div>")
-						main.children().children("a").children("#back").click(function(){
-							lsb.animate({left:'0'},100);
-							main.css("padding","0");
-							getPAGE(1);
-							$("#head").toggle(100);
-						});
-						main.append("<article style='top:"+Math.round($("#nh").height())+"px;'>"+article+"</article>");
-						nh=$("#nh");
-						nh.css('top','1em').
-							css('borderRadius','1em').
-							css('width','96%');
-						nh.children(".index").css("background",'none').css("top",'-'+main.children("#nh").children(".atitle").css("height"));
-						$(".articleTitle .index").each(function(){
-							$(this).css("width",$(this).css("height"));
-							$(this).css("lineHeight",$(this).css("height"));
-						});
-					}else document.write("你在做什么...这里没有东西哇...");});
-				}
-				function getPAGE(n){
-					lsb.css("display","block");
-					rsb.css("display","none");
-					$.get("page.php?page="+n,function(data){
-						var dt=eval(data);
-						var h="";
-						if (1==dt.length) document.write("你在做什么...这里没有东西哇...");
-						for(var i=1;i<dt.length;i++){
-							h+="<a href='#article/"+dt[i].id+"/"+dt[i].title+".html'>";
-							h+=elems("div.articleTitle");
-							h+=elems("div.atitle")+dt[i].title+"</div>";
-							h+=elems("div.index")+dt[i].id+"</div>";
-							h+=elems("div.pubdate")+dt[i].pubdate+"</div>";
-							h+=elems("div.pubtime")+dt[i].pubtime+"</div></div></a>";
-						}
-						if(dt[0]>MAX_ARTICLE_PER_PAGE){
-							h+="<div id='selpage'>";
-							for(var i=1;i<=dt[0]/10+1;i++){
-								h+="<span class='selpg'><a href='#page/"+i+".html'>"+i+"</a></span>";
-							}
-						}
-						main.html(h);
-						$(".articleTitle .atitle").each(function(){
-							if($(this).text().length>=10){
-								$(this).css('fontSize',30/$(this).text().length+'em');
-							}
-							$(this).css("float",'left');
-						});
-						$(".articleTitle .index").each(function(){
-							$(this).css("width",$(this).css("height"));
-							$(this).css("lineHeight",$(this).css("height"));
-						});
-						$("#selpage .selpg").each(function(i){
-							if (i+1!=currentPAGE){
-								$(this).click(function(){
-									getPAGE(i+1);
-									currentPAGE=i+1;
-									window.history.pushState({},0,(currentPAGE==1)?("#page/"+currentPAGE+".html"):"");
-								});
-							}
-						});
-						$(".articleTitle").each(function(i){
-							var mindex=i;
-							var t=$(this);
-							t.got=0;
-							var viewtimess=[],articles=[];
-							t.mouseenter(function(){
-								var title=t.children(".atitle").text();
-								var index=t.children(".index").text();
-								var pubdate=t.children(".pubdate").text();
-								var pubtime=t.children(".pubtime").text();
-								var html="<div id='sidetitle'><h3>"+title+"</h3></div>";
-								html+="<div id='sideindex'>文章序号："+index+"</div>";
-								html+="<div id='sidepub'>发布于："+toDate(pubdate)+" "+toTime(pubtime)+"</div>";
-								var article,viewtimes;
-								if(!t.got){
-									$.get("page.php?preaid="+t.children(".index").text(),function(data){
-										dt=eval(data)[0];
-										viewtimess[mindex]=dt.viewtimes;
-										articles[mindex]=dt.article;
-										t.got=1;
-										viewtimes=dt.viewtimes;
-										article=dt.article;
-										html+="<div id='sideviewtime'>浏览次数："+viewtimes+"</div>";
-										html+="<div id='sidearticle'>"+article+"...</div>";
-										lsb.html(html);
-										lsb.children("#sidearticle").typewriter(10);
-									});
-								} else {
-									viewtimes=viewtimess[mindex];
-									article=articles[mindex];
-									html+="<div id='sideviewtime'>浏览次数："+viewtimes+"</div>";
-									html+="<div id='sidearticle'>"+article+"...</div>";
-									lsb.html(html);
-									lsb.children("#sidearticle").typewriter(10);
-								}
-								t.animate({
-									left:'-3em',
-									bottom:'0.5em'
-								},100);
-								t.css("boxShadow",'1em 1em 5px #888888');
-							});
-							t.mouseleave(function(){
-								t.animate({
-									left:'0',
-									bottom:'0'
-								},100);
-								t.css("boxShadow",'0.1em 0.1em 5px #888888');
-							});
-							t.click(function(){
-								var nh;
-								var h=t.html();
-								t.parent().parent().html("<div id='nh' class='articleTitle' "+
-									"style='left:0;right:0;margin:auto;height:20%;backgorund:"+
-									"linear-gradient(to bottom,#ffe4c4 60%,#ffffff 60%,#ffffff 80%,rgba(255,255,255,0.4) 80%);'>"
-									+h+"<a href='#page/"+currentPAGE+".html'><div id='back' class='back backpg'></div></a></div>"+
-									"<div id='article' style='margin:1em;'></div><a href='#page/"+currentPAGE+".html'>");
-								$("#head").toggle(100,function(){
-									lsb.animate({
-										left:'-40%'
-									},200,()=>rsb.fadeToggle(100));
-									lsb.hide();
-									nh=$("#nh");
-									nh.animate({
-										top:'1em',
-										borderRadius:'1em',
-										width:'96%'
-									},200);
-									nh.children(".index").css("background",'none').css("top",'-'+main.children("#nh").children(".atitle").css("height"));
-								});
-								main.css("borderRadius","1em").css("padding","2em");
-								main.children().children("a").children("#back").click(function(){
-									lsb.animate({left:'0'},100);
-									main.css("padding","0");
-									getPAGE(currentPAGE);
-									$("#head").toggle(100);
-								});
-								$.get("page.php?aid="+t.children(".index").text(),function(data){
-									var article=eval(data)[0];
-									main.append("<article style='top:"+Math.round($("#nh").height())+"px;'>"+article.article+"</article>");
-								});
-								$(".atitle").css("float","none");
-							});
-						});
-					});
-				}
-				$(".randcolor").each(function(){
-					$(this).css("color",rgb());
-				});
-				$(".changingcolor").each(function(){
-					t=$(this);
-					setInterval(function(){t.css("color",rgb());},300);
-				});
-				setInterval(function(){$("#header").css("border","1px solid "+rgb());},100);
-				$("title").text($("#wtitle").text());
-				if(cURL.match('article\/[0-9]+')) main.addClass("isArticle");
-				if(main.hasClass("isArticle")){
-					lsb.css("display","none");
-					rsb.css("display","block");
-					var currentAID=cURL.match('article\/[0-9]+')[0].replace(/[^0-9]/g,'');
-					changeToArticle(currentAID);
-				}else{
-					var currentPAGE=(currentPAGE=cURL.match('page\/[0-9]+'))?currentPAGE[0].replace(/[^0-9]/g,''):1;
-					getPAGE(currentPAGE);
-				}
-			});
-		</script>
+		<script src="https://cdn.bootcss.com/react/15.4.2/react.min.js"></script>
+		<script src="https://cdn.bootcss.com/react/15.4.2/react-dom.min.js"></script>
+		<script src="https://cdn.bootcss.com/babel-standalone/6.22.1/babel.min.js"></script>
+		<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 		<title></title>
+		<style></style>
+		<script>
+			/*function Ajax(){};
+			(function(Ajax){
+				var xmlhttp=new XMLHttpRequest();
+				Ajax.get=function(url,callback){
+					xmlhttp.open("GET",url,true);
+					xmlhttp.send();
+					xmlhttp.onreadystatechange=function(){
+						if (xmlhttp.readyState==4 && xmlhttp.status==200){
+							(callback && typeof(callback) === "function") && callback(xmlhttp.responseText);
+						}
+					}
+					return this;
+				}
+				Ajax.post=function(url,data,callback){
+					xmlhttp.open("POST",url,true);
+					xmlhttp.send(data);
+					xmlhttp.onreadystatechange=function(){
+						if (xmlhttp.readyState==4 && xmlhttp.status==200){
+							(callback && typeof(callback) === "function") && callback(xmlhttp.responseText);
+						}
+					}
+					return this;
+				}
+				Ajax.encodeData=function(data){
+					var s="";
+					if(data && typeof(data)==="object"){
+						for(var one in data){
+							s+=one+"="+data[one]+"&";
+						}
+					}
+					return s;
+				}
+				return this;
+			})(Ajax);*/
+		</script>
 	</head>
 	<body>
-		<div id='head'>
-			<div id='header'><img src='./logo.png'></div>
-			<div id='wtitle'>Dora桑的博客</div>
-			<div id='menus'>装作有菜单的样子</div>
-		</div>
-		<div id='mp'>
-			<div id='leftsidebar'></div>
-			<div id='main'></div>
-			<div id='rightsidebar'></div>
-		</div>
-		<div id='downbar'></div>
+		<div id='head'></div>
+		<div id='leftsidebar'></div>
+		<div id='main'></div>
+		<div id='rightsidebar'></div>
+		<script>
+const MaxAriclePerPage=10;
+const PHP="./page.php?";
+var CurrentURL=window.location.toString();
+var PageID=(PageID=CurrentURL.match('page\/[0-9]+'))?PageID[0].replace(/[^0-9]/g,''):1;
+var ArticleID=(ArticleID=CurrentURL.match('article\/[0-9]+'))?ArticleID[0].replace(/[^0-9]/g,''):0;
+var ArticleTitle=null;
+var R=(f)=>Math.round(f);
+var l=function(e){console.log(e);return e};
+
+$(document).ready(function(){
+	//ChangePage(PageID);
+});
+		</script>
+		<script type="text/babel">
+class ChooseArticle extends React.Component{
+	constructor(){
+		super();
+		this.state={data:0,ArticleCount:0,ArticleIDs:[],Titles:[],PublishTimes:[],PreArticles:[],ViewTimes:[],Page:PageID,isArticle:ArticleID!=0};
+	};
+	MakeOne(Index){
+		return (
+		<a href={'./#article/'+this.state.ArticleIDs[Index]} className='AnArticle'>
+			<div className='ArticleID'>{this.state.ArticleIDs[Index]}</div>
+			<div className='ArticleTitle'>{this.state.Titles[Index]}</div>
+		</a>
+		);
+	};
+	Refresh(PageID){
+		var t=this.state;
+		var x=this;
+		$.get(PHP+"page="+t.Page,function(d){
+			t.data=eval(d);
+			for(var i=1;i<t.data.length;i++){
+				t.ArticleIDs.push(t.data[i].id);
+				t.Titles.push(t.data[i].title);
+				t.PublishTimes.push(R(t.data[i].pubdate/1000)+'.'+R(t.data[i].pubdate/100%100)+'.'+R(t.data[i].pubdate%100)+" "+R(t.data[i].pubtime/10000)+':'+R(t.data[i].pubtime/100%100)+':'+R(t.data[i].pubtime%100));
+			}
+			x.setState({
+				ArticleCount:t.data[0],
+				ArticleIDs:t.ArticleIDs,
+				Titles:t.Titles,
+				PublishTimes:t.PublishTimes,
+				Page:PageID
+			});
+		});
+	}
+	AllArticle(){
+		var x=[];
+		for(var i=0;i<MaxAriclePerPage;i++){
+			x[i]=this.MakeOne(i);
+		}
+		return x;
+	}
+	SelPage(){
+		if(this.state.ArticleCount>MaxAriclePerPage){
+			var t=[];
+			for(var i=0;i*MaxAriclePerPage<=this.state.ArticleCount;i++){
+				t[i]=(<a href={'./#page/'+(i+1)} className='SelPage'>{i+1}</a>);
+			}
+			t[PageID-1]=<span>{PageID}</span>
+			return t;
+		}
+	}
+	render(){
+		return (<div><div className='Articles'>{this.Refresh(this.state.Page),this.AllArticle()}</div><div className='PageSelect'>{this.SelPage()}</div></div>);
+	}
+};
+
+class Menu extends React.Component{
+	constructor(){
+		super();
+		this.state={hasMenu:false}
+	}
+	render(){
+		return <p className='Menus'>"Pretend to be a menu here."</p>;
+	}
+};
+
+class Header extends React.Component{
+	constructor(){
+		super();
+		this.state={isArticle:ArticleID!=0,Title:null,ArticleID:null};
+	}
+	back(){
+		ArticleTitle=null;
+		ArticleID=0;
+		ReactDOM.render(
+			
+		);
+	}
+	render(){
+		return (<div id={this.state.isArticle?'ArticleHead':'MainHead'}>
+			<div id={this.state.isArticle?'back':'header'} onclick={this.state.isArticle?back:()=>null</div>}>{this.state.isArticle?"<span class=back'></span>":"<img src='./logo.png'>"}</div>
+			<div id={this.state.isArticle?'articleTitle':'Owner'}>{this.state.isArticle?ArticleTitle:"Dora's Blog"}</div>
+			<div id={this.state.isArticle?'ID':'menu'}>{this.state.isArticle?this.state.ArticleID:"\"Pretend to be a menu here.\""}</div>
+		</div>);
+	}
+};
+ReactDOM.render(
+	<ChooseArticle />,
+	document.getElementById('main')
+);
+ReactDOM.render(
+	<Header />,
+	document.getElementById('head')
+);
+
+		</script>
 	</body>
 </html>
