@@ -2,190 +2,14 @@
 <html>
 	<head>
 		<meta charset='UTF-8'>
-		<!--<link href='./style.css' rel='stylesheet' type='text/css'>
-		<script src="https://cdn.bootcss.com/react/15.4.2/react.min.js"></script>
-		<script src="https://cdn.bootcss.com/react/15.4.2/react-dom.min.js"></script>
-		<script src="https://cdn.bootcss.com/babel-standalone/6.22.1/babel.min.js"></script>-->
 		<script src='./jquery-3.2.0.min.js'></script>
-		<script src='./funs.js'></script>
-		<style>
-			@font-face { 
-				font-family: digital;
-				src:url('./fonts/DS-DIGI.TTF');
-			}  
-			@font-face {
-				font-family: kawaii;
-				src:url('./fonts/FZ-CATOON.TTF');
-			}
-			body {
-				background:url('./yande.re 365763 landscape smile_(qd4nsvik) wallpaper.jpg') fixed no-repeat center;
-				-webkit-overflow-scrolling: touch;
-			}
-			div,article {position:relative;}
-			#head {
-				width:60em;
-				height:15em;margin:auto;
-				background:-webkit-linear-gradient(top,rgba(0,0,0,0) 60%,#ffffff 60%,#ffffff 80%,rgba(255,255,255,0.4) 80%);
-				background:-moz-linear-gradient(top,rgba(0,0,0,0) 60%,#ffffff 60%,#ffffff 80%,rgba(255,255,255,0.4) 80%);
-				background:linear-gradient(to bottom,rgba(0,0,0,0) 60%,#ffffff 60%,#ffffff 80%,rgba(255,255,255,0.4) 80%);
-			}
-			#header {
-				width:9em;height:9em;
-				border-radius:4.5em;
-				background-color:#FFFFFF;
-				top:3em;left:4em;
-			}
-			#header > img {
-				max-width:9em;
-				border-radius:
-			}
-			#wtitle {
-				left:5em;bottom:1em;
-				font-size:3em;color:#00bfff;
-				font-family:kawaii,微软雅黑,sans-serif;
-			}
-			#menus {
-				bottom:0.5em;text-indent:2em;
-				font-family:kawaii,微软雅黑,sans-serif;
-			}
-			#leftsidebar,#main,#rightsidebar {
-				float:left;
-				margin:0.3em;
-			}
-			#mp{
-				width:60em;
-				margin:auto;
-				overflow:hidden;
-			}
-			#leftsidebar,#rightsidebar {
-				width:25%;
-			}
-			#leftsidebar {
-				padding:1%;border-radius:5%;box-shadow:0.5em 0.5em 1em #888888;
-				background:rgba(255,255,255,0.3);text-indent:1.5em;
-			}
-			#rightsodebar {
-				float:right;
-			}
-			#main {
-				width:70%;
-			}
-			.articleTitle {
-				background:-webkit-linear-gradient(top,#ffe4c4 60%,#ffffff 60%,#ffffff 80%,rgba(255,255,255,0.4) 80%);
-				background:-moz-linear-gradient(top,#ffe4c4 60%,#ffffff 60%,#ffffff 80%,rgba(255,255,255,0.4) 80%);
-				background:linear-gradient(to bottom,#ffe4c4 60%,#ffffff 60%,#ffffff 80%,rgba(255,255,255,0.4) 80%);
-				height:10em;
-				width:100%;text-indent:2em;
-				margin:1em;font-family:sans-serif;
-				border-radius:1em 5em 5em 1em;
-				text-decoration: none;overflow:inherit;
-				box-shadow:0.1em 0.1em 5px #888888;
-			}
-			.articleTitle > .atitle {
-				font-size:3em;top:1em;
-				color:black;/*float:left;*/
-				text-decoration: none;
-			}
-			.articleTitle > .pubdate, .articleTitle > .pubtime {
-				display:none;
-			}
-			#selpage .selpg {
-				font-size:2em;
-				margin:0.5em;
-			}
-			a {
-				text-decoration:none;
-			}
-			#main > #nh {
-				position:fixed;
-				height:20%;
-				left:0;
-				text-align:center;
-			}
-			.backpg:before {
-				content: "< 返回";<!---->
-				font-family:微软雅黑,sans-serif;
-				display: block;
-				font-size:2em;
-				color:black;
-			}
-			.backindex:before {
-				content: "< 首页";<!---->
-				font-family:微软雅黑,sans-serif;
-				display: block;
-				font-size:2em;
-				color:black;
-			}
-			.back {
-				width:12em;
-				display: block;
-				color:black;
-			}
-			.articleTitle > .index {
-				font-size:8em;float:right;
-				font-family:digital,sans-serif;
-				background:url('http://www.pc18.com/uploadfile/2017/0216/20170216102047515.png') no-repeat center;
-				border-radius:50%;color:rgba(0,0,0,0.2);
-				height:100%;text-indent:0;
-				text-align:center;right:0;
-			}
-			.articleTitle > .index:hover {
-				color:black;
-			}
-			.index .n0:before {
-				content: "0";
-			}
-			.index .n1:before {
-				content: "1";
-			}
-			.index .n2:before {
-				content: "2";
-			}
-			.index .n3:before {
-				content: "3";
-			}
-			.index .n4:before {
-				content: "4";
-			}
-			.index .n5:before {
-				content: "5";
-			}
-			.index .n6:before {
-				content: "6";
-			}
-			.index .n7:before {
-				content: "7";
-			}
-			.index .n8:before {
-				content: "8";
-			}
-			.index .n9:before {
-				content: "9";
-			}
-			article {
-				color:rgb(255,255,255);
-				background:rgba(0,0,0,0.5);
-				padding:2em;
-				border-radius:1em;
-			}
-			.selpg {
-				border:thick solid blue;
-				background:skyblue;
-				padding-left:0.5em;
-				padding-right:0.5em;
-			}
-		</style>
+		<script src='./functions.js'></script>
+		<link href='style.css' rel='stylesheet'>
+		<title></title>
 		<script>
-			
-			
 			var ArticleIDs=[],Titles=[],PublishTimes=[],PreArticles=[],ViewTimes=[];
 			const MaxAriclePerPage=10;
 			const PHP="./page.php?";
-			
-
-			
-			
-			
 			
 			var lsb,rsb;
 			$(window).scroll(function(){
@@ -203,47 +27,53 @@
 				function changeToArticle(id){
 					lsb.toggle();
 					var nh,article,title,id,viewtimes,pubdate,pubtime;
-					$.get("page.php?aid="+id,function(data){
+					$.get(PHP+"aid="+id,function(data){
 						if(data){
-						data=eval(data)[0];
-						article=data.article;
-						id=data.id;
-						title=data.title;
-						window.history.pushState({},0,'#article/'+id+"/"+title+'.html');
-						viewtimes=data.viewtimes;
-						pubdata=data.pubdata;
-						pubtime=data.pubtime;
-						$("#head").toggle();
-						lsb.toggle();rsb.toggle();
-						main.css("borderRadius","1em").css("padding","2em");
-						var h=elems("div.atitle")+title+"</div>";
-						h+=elems("div.index")+elems("span.ids.n"+id/10)+"</span>"+elems("span.ids.n"+id%10)+"</span>"+"</div>";
-						h+=elems("div.pubdate")+pubdate+"</div>";
-						h+=elems("div.pubtime")+pubtime+"</div>";
-						main.append("<div id='nh' class='articleTitle' "+
-							"style='left:0;right:0;position:fixed;margin:auto;height:20%;backgorund:"+
-							"linear-gradient(to bottom,#ffe4c4 60%,#ffffff 60%,#ffffff 80%,rgba(255,255,255,0.4) 80%);'>"
-							+h+"<a href='#page/1.html'>"+
-							"<div id='back' class='back backindex'></div></a></div><div id='article' style='margin:1em;'></div>")
-						main.children().children("a").children("#back").click(function(){
-							lsb.animate({left:'0'},100);
-							main.css("padding","0");
-							getPAGE(1);
-							$("#head").toggle(100);
-						});
-						main.append("<article style='top:"+Math.round($("#nh").height())+"px;'>"+article+"</article>");
-						nh=$("#nh");
-						nh.css('top','1em').
-							css('borderRadius','1em').
-							css('width','96%');
-						nh.children(".index").css("background",'none').css("top",'-'+main.children("#nh").children(".atitle").css("height"));
-						$(".articleTitle .index").each(function(){
-							$(this).css("width",$(this).css("height"));
-							$(this).css("lineHeight",$(this).css("height"));
-						});
-					}else document.write("你在做什么...这里没有东西哇...");});
+							data=eval(data)[0];
+							article=data.article;
+							id=data.id;
+							title=data.title;
+							console.log(title);
+							window.history.pushState({},0,'#article/'+id+"/"+title+'.html');
+							viewtimes=data.viewtimes;
+							pubdata=data.pubdata;
+							pubtime=data.pubtime;
+							$("#head").toggle();
+							lsb.toggle();rsb.toggle();
+							main.css("borderRadius","1em").css("padding","2em");
+							var h=elems("div.atitle")+title+"</div>";
+							h+=elems("div.index")+elems("span.ids.n"+id/10)+"</span>"+elems("span.ids.n"+id%10)+"</span>"+"</div>";
+							h+=elems("div.pubdate")+pubdate+"</div>";
+							h+=elems("div.pubtime")+pubtime+"</div>";
+							main.append("<div id='nh' class='articleTitle' "+
+								"style='left:0;right:0;position:fixed;margin:auto;height:20%;backgorund:"+
+								"linear-gradient(to bottom,#ffe4c4 60%,#ffffff 60%,#ffffff 80%,rgba(255,255,255,0.4) 80%);'>"
+								+h+"<a href='#page/1.html'>"+
+								"<div id='back' class='back backindex'></div></a></div><div id='article' style='margin:1em;'></div>")
+							main.children().children("a").children("#back").click(function(){
+								lsb.animate({left:'0'},100);
+								main.css("padding","0");
+								getPAGE(1);
+								$("#head").toggle(100);
+							});
+							console.log(title);
+							$("title").text(title+" ---Dora桑的博客");
+							main.append("<article style='top:"+Math.round($("#nh").height())+"px;'>"+article+"</article>");
+							nh=$("#nh");
+							nh.css('top','1em').
+								css('borderRadius','1em').
+								css('width','96%');
+							nh.children(".index").css("background",'none').css("top",'-'+main.children("#nh").children(".atitle").css("height"));
+							$(".articleTitle .index").each(function(){
+								$(this).css("width",$(this).css("height"));
+								$(this).css("lineHeight",$(this).css("height"));
+							});
+						}
+						else document.write("你在做什么...这里没有东西哇...");
+					});
 				}
 				function getPAGE(n){
+					$("title").text("Dora桑的博客");
 					lsb.css("display","block");
 					rsb.css("display","none");
 					$.get("page.php?page="+n,function(data){
@@ -307,7 +137,7 @@
 										viewtimes=dt.viewtimes;
 										article=dt.article;
 										html+="<div id='sideviewtime'>浏览次数："+viewtimes+"</div>";
-										html+="<div id='sidearticle'>"+article+"...</div>";
+										html+="<div id='sidearticle'>"+article+"More...</div>";
 										lsb.html(html);
 										lsb.children("#sidearticle").typewriter(10);
 									});
@@ -315,7 +145,7 @@
 									viewtimes=viewtimess[mindex];
 									article=articles[mindex];
 									html+="<div id='sideviewtime'>浏览次数："+viewtimes+"</div>";
-									html+="<div id='sidearticle'>"+article+"...</div>";
+									html+="<div id='sidearticle'>"+article+"More...</div>";
 									lsb.html(html);
 									lsb.children("#sidearticle").typewriter(10);
 								}
@@ -386,17 +216,14 @@
 					changeToArticle(currentAID);
 				}else{
 					var currentPAGE=(currentPAGE=cURL.match('page\/[0-9]+'))?currentPAGE[0].replace(/[^0-9]/g,''):1;
+					$("#head").html("<div id='header'><img src='./logo.png'></div><div id='wtitle'>Dora桑的博客</div><div id='menus'>装作有菜单的样子</div>");
 					getPAGE(currentPAGE);
 				}
 			});
 		</script>
-		<title></title>
 	</head>
 	<body>
 		<div id='head'>
-			<div id='header'><img src='./logo.png'></div>
-			<div id='wtitle'>Dora桑的博客</div>
-			<div id='menus'>装作有菜单的样子</div>
 		</div>
 		<div id='mp'>
 			<div id='leftsidebar'></div>
