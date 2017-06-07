@@ -1,0 +1,85 @@
+
+			a {
+				color:pink;
+				text-decoration:none;
+				font-size:0.8em;
+				line-height:2em;
+				font-family:Copperplate,sans-serif;
+			}
+			a:hover {
+				color:red;
+				text-decoration:underline;
+				
+			}
+			#ManagmentOption {
+				position:fixed;
+				float:left;
+				width:18%;
+				background:purple;
+				height:95%;
+				color:red;
+				font-size:2em;
+				margin:auto;
+				top:0;bottom:0;padding-top:0;padding-bottom:0;
+				border-radius:1em;
+			}
+			li.selected a{
+				color:black;
+			}
+			button {
+				width:5em;
+				height:2em;
+				font-size:1.5em;
+				text-align:center;
+				font-family:sans-serif;
+				background:red;
+				border:dotted 1em skyblue;
+				border-radius:1em;
+				paddint-top:1em;
+				padding-bottom:1em;
+			}
+			button:hover {
+				background:darkblue;
+				color:white;
+			}
+			button.Submit:before {
+				content: "Submit";
+			}
+			textarea{
+				width:95%;
+				height:80%;
+				margin:auto;
+				padding:1em;
+				border:dotted 0.1em red;
+				border-radius:0.2em;
+				top:0;bottom:0;
+			}
+			textarea:focus{
+				border-radius:0.4em;
+				border:dotted 0.15em blue;
+			}
+			#ManageWindow {
+				width:75%;
+				height:98%;
+				top:0;bottom:0;
+				margin:auto;
+				margin-left:22%;
+				float:right;
+				position:fixed;
+			}
+			.notice {
+				display:none;
+				position:absolute;
+				top:0;right:0;left:0;right:0;
+				margin:auto;
+				font-family:sans-serif;
+			}
+			#ppre {
+				margin:5% 10% 0 10%;
+				padding:2em;
+				border-radius:2em;
+				border:double thick skyblue;
+				background:rgba(255,255,255,0.8);
+				width:80%;height:80%;
+				overflow:auto;
+			}

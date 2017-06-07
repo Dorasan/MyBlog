@@ -4,6 +4,7 @@
 		<meta charset='UTF-8'>
 		<script src='./jquery-3.2.0.min.js'></script>
 		<script src='./functions.js'></script>
+		<script src='./marked.min.js'></script>
 		<link href='style.css' rel='stylesheet'>
 		<title></title>
 		<script>
@@ -11,55 +12,54 @@
 			const MaxAriclePerPage=10;
 			const PHP="./page.php?";
 			
-			var lsb,rsb;
+			var lsb;
 			$(window).scroll(function(){
 				lsb.animate({
 					top:$(window).scrollTop()+"px"
 				},50);
 			});
 			$(document).ready(function(){
+				const MAX_ARTICLE_PER_PAGE=10;
 				var main=$("#main");
-				var MAX_ARTICLE_PER_PAGE=10;
 				lsb=$("#leftsidebar");
-				rsb=$("#rightsidebar");
 				var cURL=window.location.toString();
 				var currentPAGE=1;
+				
 				function changeToArticle(id){
 					lsb.toggle();
-					var nh,article,title,id,viewtimes,pubdate,pubtime;
+					var article,title,id,viewtimes,pubdate,pubtime;
 					$.get(PHP+"aid="+id,function(data){
 						if(data){
 							data=eval(data)[0];
-							article=data.article;
-							id=data.id;
-							title=data.title;
-							console.log(title);
+							article=data.article,id=data.id,title=data.title;
+							//console.log(title);
 							window.history.pushState({},0,'#article/'+id+"/"+title+'.html');
 							viewtimes=data.viewtimes;
 							pubdata=data.pubdata;
 							pubtime=data.pubtime;
 							$("#head").toggle();
-							lsb.toggle();rsb.toggle();
+							lsb.toggle();
 							main.css("borderRadius","1em").css("padding","2em");
-							var h=elems("div.atitle")+title+"</div>";
-							h+=elems("div.index")+elems("span.ids.n"+id/10)+"</span>"+elems("span.ids.n"+id%10)+"</span>"+"</div>";
-							h+=elems("div.pubdate")+pubdate+"</div>";
-							h+=elems("div.pubtime")+pubtime+"</div>";
+							var h=elems("div.atitle")+title+"</div>"+
+								elems("div.index")+((id/10)?elems("span.ids.n"+id/10)+"</span>":'')+
+								elems("span.ids.n"+id%10)+"</span>"+"</div>"+
+								elems("div.pubdate")+pubdate+"</div>"+
+								elems("div.pubtime")+pubtime+"</div>";
 							main.append("<div id='nh' class='articleTitle' "+
 								"style='left:0;right:0;position:fixed;margin:auto;height:20%;backgorund:"+
 								"linear-gradient(to bottom,#ffe4c4 60%,#ffffff 60%,#ffffff 80%,rgba(255,255,255,0.4) 80%);'>"
 								+h+"<a href='#page/1.html'>"+
-								"<div id='back' class='back backindex'></div></a></div><div id='article' style='margin:1em;'></div>")
+								"<div id='back' class='back backindex'></div></a></div>")
 							main.children().children("a").children("#back").click(function(){
 								lsb.animate({left:'0'},100);
 								main.css("padding","0");
 								getPAGE(1);
 								$("#head").toggle(100);
 							});
-							console.log(title);
+							//console.log(title);
 							$("title").text(title+" ---Dora桑的博客");
-							main.append("<article style='top:"+Math.round($("#nh").height())+"px;'>"+article+"</article>");
-							nh=$("#nh");
+							main.append("<article style='top:"+Math.round($("#nh").height())+"px;z-index:-1;'>"+article+"</article>");
+							var nh=$("#nh");
 							nh.css('top','1em').
 								css('borderRadius','1em').
 								css('width','96%');
@@ -75,7 +75,6 @@
 				function getPAGE(n){
 					$("title").text("Dora桑的博客");
 					lsb.css("display","block");
-					rsb.css("display","none");
 					$.get("page.php?page="+n,function(data){
 						var dt=eval(data);
 						var h="";
@@ -173,7 +172,7 @@
 								$("#head").toggle(100,function(){
 									lsb.animate({
 										left:'-40%'
-									},200,()=>rsb.fadeToggle(100));
+									},200);
 									lsb.hide();
 									nh=$("#nh");
 									nh.animate({
@@ -192,7 +191,7 @@
 								});
 								$.get("page.php?aid="+t.children(".index").text(),function(data){
 									var article=eval(data)[0];
-									main.append("<article style='top:"+Math.round($("#nh").height())+"px;'>"+article.article+"</article>");
+									main.append("<article style='top:"+Math.round($("#nh").height())+"px;'>"+marked(article.article)+"</article>");
 								});
 								$(".atitle").css("float","none");
 							});
@@ -206,12 +205,11 @@
 					t=$(this);
 					setInterval(function(){t.css("color",rgb());},300);
 				});
-				setInterval(function(){$("#header").css("border","1px solid "+rgb());},100);
+				//setInterval(function(){$("#header").css("border","1px solid "+rgb());},100);
 				$("title").text($("#wtitle").text());
 				if(cURL.match('article\/[0-9]+')) main.addClass("isArticle");
 				if(main.hasClass("isArticle")){
 					lsb.css("display","none");
-					rsb.css("display","block");
 					var currentAID=cURL.match('article\/[0-9]+')[0].replace(/[^0-9]/g,'');
 					changeToArticle(currentAID);
 				}else{
@@ -228,7 +226,6 @@
 		<div id='mp'>
 			<div id='leftsidebar'></div>
 			<div id='main'></div>
-			<div id='rightsidebar'></div>
 		</div>
 		<div id='downbar'></div>
 	</body>

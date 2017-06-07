@@ -40,7 +40,7 @@ if(isset($_GET['page'])){
 else if(isset($_GET['preaid'])){
 	filter_var($_GET['preaid'], FILTER_VALIDATE_FLOAT);
 	$sql="select ID,VIEW_TIME,
-		replace(replace(REPLACE(REPLACE(SUBSTRING_INDEX(ARTICLE,'<!--MORE-->',1), CHAR(10),''),char(39),char(92)+char(39)),char(34),char(92)+char(34)), CHAR(13),'') as ARTICLE
+		replace(replace(REPLACE(REPLACE(SUBSTRING_INDEX(ARTICLE,'<!--MORE-->',1), CHAR(10),char(92)+char(110)),char(39),char(92)+char(39)),char(34),char(92)+char(34)), CHAR(13),'') as ARTICLE
 		from MyBlog.blog_article where ID=".$_GET['preaid'];
 	$retval=mysqli_query($con,$sql);
 	if(!$retval)
@@ -54,7 +54,7 @@ else if(isset($_GET['preaid'])){
 }
 else if(isset($_GET['aid'])){
 	filter_var($_GET['aid'], FILTER_VALIDATE_FLOAT);
-	$sql="select ID,VIEW_TIME,replace(replace(replace(replace(ARTICLE,char(10),''),char(13),''),char(39),char(92)+char(39)),char(34),char(92)+char(34)) as ARTICLE,TITLE,PUBLISH_DATE,PUBLISH_TIME
+	$sql="select ID,VIEW_TIME,replace(replace(replace(replace(ARTICLE,char(10),char(92)+char(110)),char(13),''),char(39),char(92)+char(39)),char(34),char(92)+char(34)) as ARTICLE,TITLE,PUBLISH_DATE,PUBLISH_TIME
 		from MyBlog.blog_article where ID=".$_GET['aid'];
 	$retval=mysqli_query($con,$sql);
 	if(!$retval)
