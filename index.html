@@ -11,7 +11,13 @@
 			var ArticleIDs=[],Titles=[],PublishTimes=[],PreArticles=[],ViewTimes=[];
 			const MaxAriclePerPage=10;
 			const PHP="./page.php?";
-			
+			const site='127.0.0.1/Website/';
+			const menus=[
+				[site,'Home'],
+				['./online_chat.php','Online Chat'],
+				['./disc.html','About']
+			];
+			const loading='';
 			var lsb;
 			$(window).scroll(function(){
 				lsb.animate({
@@ -140,6 +146,7 @@
 										lsb.html(html);
 										lsb.children("#sidearticle").typewriter(10);
 									});
+									lsb.html(loading);
 								} else {
 									viewtimes=viewtimess[mindex];
 									article=articles[mindex];
@@ -216,6 +223,13 @@
 					var currentPAGE=(currentPAGE=cURL.match('page\/[0-9]+'))?currentPAGE[0].replace(/[^0-9]/g,''):1;
 					$("#head").html("<div id='header'><img src='./logo.png'></div><div id='wtitle'>Dora桑的博客</div><div id='menus'>装作有菜单的样子</div>");
 					getPAGE(currentPAGE);
+				}
+				var menu='';
+				if([]!=menus){
+					for(i in menus){
+						menu+='<span class="menu"><a href="'+menus[i][0]+'" style="color:black;">'+menus[i][1]+'</a></span>';
+					}
+					$("#menus").html(menu);
 				}
 			});
 		</script>

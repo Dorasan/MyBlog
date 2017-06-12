@@ -1,6 +1,7 @@
 <?php
+require 'config.php';
 define("endl","\n");
-define ("MAX_ARTICLE_PER_PAGE",10);
+define("MAX_ARTICLE_PER_PAGE",10);
 /*create table blog_article (
 ID int not null auto_increment,
 TITLE text not null,
@@ -11,7 +12,7 @@ ARTICLE text not null,
 primary key(ID)
 )ENGINE=InnoDB default charset=utf8;
 */
-$con=mysqli_connect("localhost","root","kamisama");
+$con=mysqli_connect(DB_H,DB_U,DB_P);
 if(!$con) die("SQL Error!".mysqli_error($con));
 mysqli_query($con,"set names utf8");
 if(isset($_GET['page'])){

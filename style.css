@@ -35,7 +35,7 @@
 			}
 			#header > img {
 				max-width:9em;
-				border-radius:
+				border-radius:9em;
 			}
 			#wtitle {
 				left:5em;bottom:1em;
@@ -45,6 +45,16 @@
 			#menus {
 				bottom:0.5em;text-indent:2em;
 				font-family:kawaii,微软雅黑,sans-serif;
+			}
+			.menu {
+				 margin-top:1em;
+				 font-size:2em;
+				 margin-left:0.5em;
+				 margin-right:1em;
+			}
+			.menu a:hover{
+				background:rgba(255,255,255,0.6);
+				border-radius:0.2em;
 			}
 			#leftsidebar,#main,#rightsidebar {
 				float:left;

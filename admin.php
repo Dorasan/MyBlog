@@ -28,7 +28,7 @@ if(isset($_COOKIE['ADMIN'])&&($_COOKIE['ADMIN']==SUPASS)){ //验证成功
 	if(isset($_GET['ManageType'])){ //检测管理界面类型
 		$type=$_GET['ManageType'];
 		if('EditArticle'==$type&&(!isset($_GET['aid']))) {
-			$header("location: ./admin.php?ManageType=AddArticle"); 
+			header("location: ./admin.php?ManageType=AddArticle"); 
 			exit; 
 		}
 	}
@@ -57,11 +57,37 @@ if(isset($_COOKIE['ADMIN'])&&($_COOKIE['ADMIN']==SUPASS)){ //验证成功
 				`ARTICLE` = '".$Article."' WHERE `blog_article`.`ID` = ".$aid;
 		} else {return '000000';}
 		$retval=mysqli_query($con,$sql);
-		
 		if(!$retval){
 			return DEBUG?[false,mysqli_error($retval)]:1;
 		}
-	} else {
+	}else if(isset($_GET['nid'])){
+		filter_var($_GET['nid'], FILTER_VALIDATE_FLOAT);
+		filter_var($_GET['aid'], FILTER_VALIDATE_FLOAT);
+		$sql="UPDATE `MyBlog`.`blog_article` SET `ID` = '".$_GET['nid']."' WHERE `blog_article`.`ID` = ".$_GET['aid'];
+		//Mysql connect start
+		$con=mysqli_connect(DB_H,DB_U,DB_P);
+		if(!$con) die(DEBUG?"SQL Error!".mysqli_error($con):000000);
+		mysqli_query($con,"set names utf8");
+		//Mysql connect finish
+		$retval=mysqli_query($con,$sql);
+		if(!$retval){
+			echo DEBUG?mysqli_error($retval):'false';
+		}else echo 'true';
+	}else if(isset($_GET['d'])){
+		filter_var($_GET['aid'], FILTER_VALIDATE_FLOAT);
+		if(1==$_GET['d'])
+			$sql="DELETE FROM `MyBlog`.`blog_article` WHERE `blog_article`.`ID` = ".$_GET['aid'];
+		else return;
+		//Mysql connect start
+		$con=mysqli_connect(DB_H,DB_U,DB_P);
+		if(!$con) die(DEBUG?"SQL Error!".mysqli_error($con):000000);
+		mysqli_query($con,"set names utf8");
+		//Mysql connect finish
+		$retval=mysqli_query($con,$sql);
+		if(!$retval){
+			echo DEBUG?mysqli_error($retval):'false';
+		}else echo 'true';
+	}else{
 ?>
 <!DOCTYPE html>
 <html>
@@ -74,6 +100,7 @@ if(isset($_COOKIE['ADMIN'])&&($_COOKIE['ADMIN']==SUPASS)){ //验证成功
 		<script type="text/javascript">
 			const type='<? echo $type ?>';
 			const auto_save_time=300*60;
+			var AIDs=[];
 			function con(t){ //控制台输入并返回
 				console.log(t);
 				return t;
@@ -100,7 +127,7 @@ if(isset($_COOKIE['ADMIN'])&&($_COOKIE['ADMIN']==SUPASS)){ //验证成功
 				var Ho=DT.getHours(),Mi=DT.getMinutes(),Se=DT.getSeconds();
 				if(""==mark) return alert("No data!");
 				var location=document.location.toString();
-				//try {
+				try {
 					$.post(location,{
 						article:mark,
 						date:toDouble(Y)+toDouble(M+1)+toDouble(D),
@@ -108,13 +135,41 @@ if(isset($_COOKIE['ADMIN'])&&($_COOKIE['ADMIN']==SUPASS)){ //验证成功
 						title:document.getElementById('tit').value,
 						aid:('AddArticle'==type?0:location.substr(location.indexOf('aid=')+4,location.length))
 					},()=>draft.remove(('AddArticle'==type?"":"A")+"Log"));
-				//}
-				//catch(e){alert("提交失败");return undefined;};
-				
+				}
+				catch(e){alert("提交失败");return undefined;};
 			};
 			function preview(){
 				$("#Preview").html("<div id='ppre'>"+marked(document.getElementById('text').value)+"</div>").fadeToggle(100);
 			}
+			function used(aid){
+				for(var i=0;i<AIDs.length;i++){
+					if(AIDs[i]==aid)return i+1;
+				}
+				return false;
+			}
+			var Manage= {
+				Del:function(aid){
+					if(!aid)return;
+					var cfm=confirm("Are you sure to delete this article?");
+					if(cfm)
+						$.get("./admin.php?ManageType=ManageArticle&d=1&aid="+aid,function(data){
+							if(!eval(data))return alert("Something wrong while deleting the article.");
+							location.reload(1);
+						});
+					return;
+				},
+				ChangeAID:function(aid){
+					var NewID=prompt("Please input new id:","Do not use used id");
+					while(used(NewID)){
+						NewID=prompt("DONOT use old ID:","");
+					}
+					if(!NewID)return;
+					$.get("./admin.php?ManageType=EditArticle&aid="+aid+"&nid="+NewID,function(data){
+						if(!eval(data))return alert("Something wrong while deleting the article.");
+						location.reload(1);
+					});
+				}
+			};
 			$(document).ready(function(){
 				console.log(type);
 				if('ManageArticle'==type) document.getElementById("mnga").className = "selected";
@@ -124,11 +179,50 @@ if(isset($_COOKIE['ADMIN'])&&($_COOKIE['ADMIN']==SUPASS)){ //验证成功
 				}
 				else if('EditArticle'==type) {
 					document.getElementById("edia").className = "selected";
-					if(''!=draft.get()&&confirm("There is a draft you edited, do you want to continue edit your draft?")) document.getElementById('text').value=draft.get();
+					if(''!=draft.get())
+						if(confirm("There is a draft you edited, do you want to continue edit your draft?")) document.getElementById('text').value=draft.get();
+						else draft.remove('ALog');
 				}
 				setInterval(auto_save_time,()=>draft.save());
 			});
 		</script>
+		<style>
+			a {
+				color:black;
+				text-decoration:none;
+			}
+			a:hover{
+				text-decoration:uinderline;
+				color:green;
+			}
+			a.del {
+				color:red;
+			}
+			a.del:hover {
+				color:green;
+			}
+			td {
+				text-align:center;
+				line-height:1.2em;
+				padding-left:0.5em;
+				padding-right:0.5em;
+			}
+			th {
+				padding-left:0.5em;
+				padding-right:0.5em;
+				background:rgb(80,80,80);
+				color:white;
+			}
+			td.tit {
+				text-align:left;
+			}
+			tr.tr0 {
+				background:rgba(255,255,255,0);
+			}
+			tr.tr1 {
+				background:rgb(200,200,200);
+			}
+		</style>
 	</head>
 	<body>
 		<div id='ManagmentOption'>
@@ -159,6 +253,16 @@ if(isset($_COOKIE['ADMIN'])&&($_COOKIE['ADMIN']==SUPASS)){ //验证成功
 			if(!$con) die(DEBUG?"SQL Error!".mysqli_error($con):000000);
 			mysqli_query($con,"set names utf8");
 			//Mysql connect finish
+			$sql="select ID
+				from MyBlog.blog_article order by ID desc;";
+			$retval=mysqli_query($con,$sql);
+			if(!$retval)
+				die('NO DATA: '.DEBUG?(mysqli_error($con)):000000);
+			echo "<script>AIDs=[";
+			while($row=mysqli_fetch_array($retval)){
+				echo $row['ID'].",";
+			}
+			echo "-1]</script>";
 			$sql="select ID,TITLE
 				from MyBlog.blog_article order by ID desc;";
 				//limit ".(($_GET['page']-1)*MAX_ARTICLE_PER_PAGE).",".
@@ -166,23 +270,16 @@ if(isset($_COOKIE['ADMIN'])&&($_COOKIE['ADMIN']==SUPASS)){ //验证成功
 			$retval=mysqli_query($con,$sql);
 			if(!$retval)
 				die('NO DATA: '.DEBUG?(mysqli_error($con)):000000);
-			echo "<table><tr style='background:rgb(80,80,80);color:white;'><th>ID</th><th>Title</th><th>Option/th></tr>";
-			//echo $retval;
-			//global $t=0;
-			$t=1;
+			echo "<table style='font-size:1.2em;'><tr><th>ID</th><th>Title</th><th>Change ID</th><th>Edit</th><th>Delete</th></tr>";
+			$t=0;
 			while($row=mysqli_fetch_array($retval)){
 			?>
-			<tr style='background:<? echo (($t%2)?'white':'rgb(150,150,150)'); ?>'>
+			<tr class='tr<? echo $t%2; ?>'>
 				<td style='text-align:center;'><? echo $row['ID'] ?></td>
-				<td><? echo $row['TITLE'] ?></td>
-				<td>
-					<select>
-						<option selected></option>
-						<option onclick='console.log(123654);self.location="./admin.php?ManageType=EditArticle&aid=<? echo $row['ID'] ?>"'>Edit</option>
-						<option onclick='confirm("Are you sure to delete this article?")?()=>{self.location="./admin.php?ManageType=ManageArticle&d=1&aid=<? echo $row['ID'] ?>"}:()=>{}</option>'>Delete</option>
-						<option onclick='self.location="./admin.php?ManageType=EditArticle&nid="+prompt("Please input new id:","Do not use used id")+"&aid=<? echo $row['ID'] ?>"'>Change ID</option>
-					</select>
-				</td>
+				<td class='tit'><? echo $row['TITLE'] ?></td>
+				<td><a href='#' onclick='Manage.ChangeAID(<? echo $row['ID'] ?>)' class='cge'>Change</a></td>
+				<td><a href="./admin.php?ManageType=EditArticle&aid=<? echo $row['ID'] ?>" class='edt'>Edit</a></td>
+				<td><a href='#' onclick='Manage.Del(<? echo $row['ID'] ?>)' class='del'>Delete</a></td>
 			</tr>
 			<?
 				$t++;

@@ -5,6 +5,14 @@
 唉我能怎么办我也很绝望啊  
 我好菜啊  
 好菜啊    
+### Updated at 2017.6.12  
+My IME is broken again......  
+Maybe this is the last time i edit my blog, because it is *FINISHED*!!!  
+i am so happy  
+so the next step is to make a online chatter   
+the **** tencent didnt make a Linux QQ, so its very uncovinent to chat with my friends.  
+Good luck to me  
+
 ### Updated at 2017.5.31
 这输入法简直玄学...时好时坏有毒啊    
 写这个管理界面的时候满脑子骚操作，不算里面的sql语句，js和php混合真是写到头大    
