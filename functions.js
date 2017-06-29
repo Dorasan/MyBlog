@@ -4,28 +4,7 @@ function elems(elem){
 	var classes,ids;
 	return retval+((ids=elem.match(/#\w+/g))?" id='"+ids[0].substr(1)+"'":"")+((classes=elem.match(/\.\w+/g))?" class='"+classes.reduce((a,b,c)=>a+(c?' ':'')+b.replace(/[^\w]/g,''),"")+"'":"")+">";
 };
-(function($){
-	$.fn.typewriter=function(timeout){
-		this.each(function(){
-			var $ele=$(this),str=$ele.html(),progress=0,str0=str;
-			$ele.html('');
-			var t=0;
-			var timer=setInterval(function(){
-				var current=str.substr(progress,1);
-				if (current=='<') {
-					progress=str.indexOf('>',progress)+1;
-				}else{
-					progress++;
-				}
-				$ele.html(str.substring(0,progress)+(progress&1?'_':''));
-				if (progress>=str.length){
-					clearInterval(timer);
-				}
-				},(timeout?timeout:100));
-		});
-		return this;
-	};
-})(jQuery);
+
 function toDate(date_num){
 	var d=date_num?date_num:19700101;
 	return Math.floor(d/10000)+"年"+Math.floor((d/100)%100)+"月"+Math.floor(d%100)+"日";

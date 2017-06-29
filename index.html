@@ -2,12 +2,13 @@
 <html>
 	<head>
 		<meta charset='UTF-8'>
-		<script src='./jquery-3.2.0.min.js'></script>
-		<script src='./functions.js'></script>
+		<!--<script src='./jquery-3.2.0.min.js'></script>
+		<script src='./functions.js'></script>-->
 		<script src='./marked.min.js'></script>
-		<link href='style.css' rel='stylesheet'>
-		<title></title>
-		<script>
+		<script src='./vue.min.js'></script>
+		<link href='./style.css' rel='stylesheet'>
+		<title id="title">{{(title?title+" - ":"")+Default}}</title>
+		<script>/*
 			var ArticleIDs=[],Titles=[],PublishTimes=[],PreArticles=[],ViewTimes=[];
 			const MaxAriclePerPage=10;
 			const PHP="./page.php?";
@@ -218,10 +219,11 @@
 				if(main.hasClass("isArticle")){
 					lsb.css("display","none");
 					var currentAID=cURL.match('article\/[0-9]+')[0].replace(/[^0-9]/g,'');
+					head.data.isMenu=true;
 					changeToArticle(currentAID);
 				}else{
 					var currentPAGE=(currentPAGE=cURL.match('page\/[0-9]+'))?currentPAGE[0].replace(/[^0-9]/g,''):1;
-					$("#head").html("<div id='header'><img src='./logo.png'></div><div id='wtitle'>Dora桑的博客</div><div id='menus'>装作有菜单的样子</div>");
+					head.data.isMenu=true;
 					getPAGE(currentPAGE);
 				}
 				var menu='';
@@ -231,16 +233,262 @@
 					}
 					$("#menus").html(menu);
 				}
-			});
-		</script>
+			});*/
+        </script>
+        <script>
+            const MaxArticlePerPage=10;
+            const PHP="./page.php";
+            const SITE="//127.0.0.1/Website";
+            const DEFAULTTITLE="Dora桑的博客";
+            const WELCOME_WORD="Welcome to "+DEFAULTTITLE;
+            const MENU=[
+                {href:SITE,name:'Home'},
+                {href:'./online_chat.php',name:'Online Chat'},
+                {href:'./disc.html',name:'About'}
+            ];
+
+            var CurrentURL=window.location.toString();
+            var PageType=CurrentURL.match('article\/[0-9]+')?"Article":"ArticleMenu";
+            var ArticleID=(ArticleID=CurrentURL.match('article\/[0-9]+'))?ArticleID[0].replace(/[^0-9]/g,''):undefined;
+            var MenuPage=ArticleID?undefined:(MenuPage=CurrentURL.match('page\/[0-9]+'))?MenuPage[0].replace(/[^0-9]/g,''):1;
+            var ArticleTitle=null;
+            var Ajax={
+                get:function(url,callback){
+                    var xmlhttp=new XMLHttpRequest();
+                    xmlhttp.open("GET",url,true);
+                    xmlhttp.send();
+                    xmlhttp.onreadystatechange=function(){
+                        if(4===xmlhttp.readyState&&200===xmlhttp.status){
+                            var data=xmlhttp.responseText;
+                            if(callback&&"function"===typeof(callback)) callback(data);
+                        }
+                    }
+                },
+                post:function(url,data,callback){
+                    var xmlhttp=new XMLHttpRequest();
+                    if (!data) return this.get(url);
+                    xmlhttp.open("POST",url,true);
+                    xmlhttp.send(data);
+                    xmlhttp.onreadystatechange=function(){
+                        if(4===xmlhttp.readyState&&200===xmlhttp.status){
+                            var data=xmlhttp.responseText;
+                            if(callback&&"function"===typeof(callback)) callback(data);
+                        }
+                    }
+                }
+            };
+            function typewirter(elem,timeout){
+                var $ele=elem,str=$ele.innerHTML(),progress=0,str0=str;
+                $ele.innerHTML='';
+                var t=0;
+                var timer=setInterval(function(){
+                    var current=str.substr(progress,1);
+                    if (current==='<') {
+                        progress=str.indexOf('>',progress)+1;
+                    }else{
+                        progress++;
+                    }
+                    $ele.html(str.substring(0,progress)+(progress&1?'_':''));
+                    if (progress>=str.length){
+                        clearInterval(timer);
+                    }
+                },(timeout?timeout:100));
+            };
+            var M_ids=[];
+            var M_titles=[];
+            var M_pubdates=[];
+            var M_pubtimes=[];
+            var M_viewtimes=[];
+            var M_Allpages=NaN;
+            window.onscroll=function(){
+                if(MenuPage){
+                    var l=document.getElementById("leftSideBar");
+                    if(window.scrollY>l.offsetTop){
+                        l.style.position='fixed';
+                        l.style.top=0;
+                    }else{
+                        l.style.position='relative';
+                        l.style.top=null;
+                    }
+                }
+            }
+        </script>
 	</head>
 	<body>
-		<div id='head'>
-		</div>
+        <div id='head'>
+            <template v-if="'ArticleMenu'===PageType">
+                <div id='header'>
+                    <img src='./logo.png'>
+                </div>
+                <div id='H_title'>{{DEFAULTTITLE}}</div>
+                <div id="menus">
+                    <template  v-if="MENU">
+                        <span class='M_Menu' v-for="el in MENU"><a :href="el.href">{{el.name}}</a></span>
+                    </template>
+                    <template v-else>There is no menu</template>
+                </div>
+            </template>
+            <template v-else-if="'Article'===PageType">
+                 <div id="A_BackButton"></div>
+                 <div id="A_Title">{{CurrentTitle}}</div>
+                 <div id="A_ID">{{CurrentID}}</div>
+            </template>
+        </div>
 		<div id='mp'>
-			<div id='leftsidebar'></div>
-			<div id='main'></div>
+			<div id='leftSideBar' v-if="isMenu">
+                <template v-if="defaultMessage">{{defaultMessage}}</template>
+                <template v-else>
+                    <div id='sidetitle'><h3>{{title}}</h3></div>
+                    <div id='sideindex'>文章序号：{{index}}</div>
+                    <div id='sidepub'>发布于：{{pubtime}}</div>
+                    <div id='sideviewtime'>浏览次数：{{viewtime}}</div>
+                    <div id='sidearticle'>{{preview}}<br />More...</div>
+                </template>
+            </div>
+			<div id='main' :class="isMenu?'ArticleMenus':'Article'">
+                <template v-if="isMenu" v-for="item in MenuData">
+                    <a v-if="typeof(item)=='object'" :href="'#article/'+item.id+'/'+item.title+'.html'" @click="setArticle(item.id)">
+                        <div class='articleTitle'>
+                            <div class='atitle' :style="item.title.length>=10?'font-size:'+30/item.title.length+'em':''">{{item.title}}</div>
+                            <div class='index'>{{item.id}}</div>
+                        </div>
+                    </a>
+                </template>
+                <template v-else>
+                    <article>{{marked(ArticleData)}}</article>
+                </template>
+                <template v-if="isMenu&&(MenuData[0]>MaxArticlePerPage)">
+                    <div id="PageSel">
+                        <a v-for="i in Math.floor(MenuData[0]/MaxArticlePerPage)+1" @click="setPage(i)" :href="'#page/'+i"><span class="P_sel">{{i}}</span></a>
+                    </div>
+                </template>
+            </div>
 		</div>
-		<div id='downbar'></div>
+		<div id='DownBar' v-if="Copyright">{{Copyright}}</div>
+        <script>
+            var title=new Vue({
+                el:"#title",
+                data:{
+                    Default:DEFAULTTITLE,
+                    PageType:PageType,
+                    title:null
+                },
+                methods:{
+                    refresh:function(type){
+                        const M=0,A=1;
+                        if (M==type) {
+                            this.data.title="Page "+MenuPage+" - "+this.data.Default;
+                        }else if (A==type) {
+                            this.data.title=ArticleTitle+" - "+this.data.Default;
+                        }
+                    }
+                }
+            });
+            var lsb=new Vue({
+                el:"#leftSideBar",
+                data:{
+                    isMenu:MenuPage,
+                    index:NaN,
+                    title:null,
+                    pubtime:null,
+                    viewtime:NaN,
+                    preview:null,
+                    defaultMessage:WELCOME_WORD
+                },
+                method:{
+                    title:function(newtitle){
+                        if (undefined===newtitle) return this.data.title;
+                        return this.data.title=newtitle;
+                    },
+                    pubtime:function(date,time){
+                        if (undefined===date) return this.data.pubtime;
+                        else if(time){
+                            this.data.pubtime=date.substr(0,2)+"nian"+date.substr(2,2)+"yue"+date.substr(4,2)+"ri "+
+                                    time.substr(0,2)+":"+time.substr(2,2)+":"+time.substr(4,2);
+                        }
+                        else {
+                            this.data.pubtime=date.substr(0,2)+"nian"+date.substr(2,2)+"yue"+date.substr(4,2)+"ri";
+                        }
+                    },
+                    preview:function(preview){
+                        this.data.preview=preview;
+                    },
+                    viewtime:function(viewtime){
+                        this.data.viewtime=viewtime;
+                    }
+                }
+            });
+            var main=new Vue({
+                el:"#mp",
+                data:{
+                    isMenu:MenuPage,
+                    MenuData:undefined,
+                    ArticleMain:undefined,
+                    val:null
+                },
+                methods:{
+                    addArticleMenus:function(data){
+                        this.MenuData=data;//data;
+                    },
+                    loading:function(){
+
+                    },
+                    setPage:function(page){
+                        MenuPage=page;
+                        this.loading();
+                        Ajax.get(PHP+"?page="+page,getMenu);
+                    },
+                    setArticle:function (aid) {
+                        this.isMenu=undefined;
+                        Ajax.get(PHP+"?aid="+aid,function(data){
+                            data=eval(data)[0];
+                            this.ArticleMain=data.article;
+                        });
+                    }
+                }
+            });
+            var head=new Vue({
+                el:"#head",
+                data:{
+                    PageType:PageType
+                }
+            });
+            var menus=new Vue({
+                el:"#menus",
+                data:{
+                    menus:MENU
+                }
+            });
+            var downbar=new Vue({
+                el:"#DownBar",
+                data:{
+                    Copyright:undefined
+                }
+            });
+            function getMenu(data){
+                data=eval(data);
+                M_Allpages=data[0];
+                for(var item in data){
+                    if("object"===typeof(data[item])){
+                        M_ids.push(data[item].id);
+                        M_pubdates.push(data[item].pubdate);
+                        M_pubtimes.push(data[item].pubtime);
+                        M_titles.push(data[item].title);
+                    }
+                }
+                main.addArticleMenus(eval(data));
+            }
+            document.onreadystatechange=function(){
+                if ("complete"==document.readyState) {
+                    if(MenuPage){
+                        Ajax.get(PHP+"?page="+MenuPage,getMenu);
+                    }else if(ArticleID){
+                        Ajax.get(PHP+"?aid="+ArticleID,function(data){
+                            data=eval(data);
+                        });
+                    }
+                }
+            };
+        </script>
 	</body>
 </html>

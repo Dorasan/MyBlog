@@ -1,4 +1,11 @@
-
+@keyframes A_titleMove {
+    0% {right:0;bottom:0}
+    100% {right:3em;bottom:0.5em;}
+}
+@keyframes PageSelHover {
+	0% {font-size:2em;}
+	100% {font-size:1.5em;}
+}
 			::selection{
 				background:red;
 				color:skyblue;
@@ -20,60 +27,66 @@
 				-webkit-overflow-scrolling: touch;
 			}
 			div,article {position:relative;}
-			#head {
-				width:60em;
-				height:15em;margin:auto;
-				background:-webkit-linear-gradient(top,rgba(0,0,0,0) 60%,#ffffff 60%,#ffffff 80%,rgba(255,255,255,0.4) 80%);
-				background:-moz-linear-gradient(top,rgba(0,0,0,0) 60%,#ffffff 60%,#ffffff 80%,rgba(255,255,255,0.4) 80%);
-				background:linear-gradient(to bottom,rgba(0,0,0,0) 60%,#ffffff 60%,#ffffff 80%,rgba(255,255,255,0.4) 80%);
-			}
-			#header {
-				width:9em;height:9em;
-				border-radius:4.5em;
-				background-color:#FFFFFF;
-				top:3em;left:4em;
-			}
-			#header > img {
-				max-width:9em;
-				border-radius:9em;
-			}
-			#wtitle {
-				left:5em;bottom:1em;
-				font-size:3em;color:#00bfff;
-				font-family:kawaii,微软雅黑,sans-serif;
-			}
-			#menus {
-				bottom:0.5em;text-indent:2em;
-				font-family:kawaii,微软雅黑,sans-serif;
-			}
-			.menu {
-				 margin-top:1em;
-				 font-size:2em;
-				 margin-left:0.5em;
-				 margin-right:1em;
-			}
-			.menu a:hover{
-				background:rgba(255,255,255,0.6);
-				border-radius:0.2em;
-			}
-			#leftsidebar,#main,#rightsidebar {
-				float:left;
-				margin:0.3em;
-			}
+#head {
+	width:60em;
+	height:15em;margin:auto;
+	background:-webkit-linear-gradient(top,rgba(0,0,0,0) 60%,#ffffff 60%,#ffffff 80%,rgba(255,255,255,0.4) 80%);
+	background:-moz-linear-gradient(top,rgba(0,0,0,0) 60%,#ffffff 60%,#ffffff 80%,rgba(255,255,255,0.4) 80%);
+	background:linear-gradient(to bottom,rgba(0,0,0,0) 60%,#ffffff 60%,#ffffff 80%,rgba(255,255,255,0.4) 80%);
+}
+#header {
+	width:9em;height:9em;
+	float:left;
+	border-radius:4.5em;
+	background-color:#FFFFFF;
+	top:3em;left:4em;
+}
+#header > img {
+	max-width:9em;
+	border-radius:4.5em;
+}
+#H_title {
+	float:left;top:2.5em;left:2em;
+	font-size:3em;color:#00bfff;
+	font-family:kawaii,微软雅黑,sans-serif;
+}
+#menus {
+	top:12em;
+	text-indent:2em;
+	font-family:kawaii,微软雅黑,sans-serif;
+}
+.M_Menu {
+	color:indianred;
+	font-size:1.5em;
+	margin-left:0.5em;
+	margin-right:1em;
+}
+.M_Menu a:hover{
+	background:rgba(255,255,255,0.6);
+	color:darkseagreen;
+	border-radius:0.2em;
+}
+.M_Menu a:visited{
+	color:indianred;
+}
+#leftSideBar,#main {
+	float:left;
+	margin:0.3em;
+}
+.ArticleMenus {
+	margin-left:30%;
+}
 			#mp{
 				width:60em;
 				margin:auto;
 				overflow:hidden;
 			}
-			#leftsidebar,#rightsidebar {
+			#leftSideBar {
 				width:25%;
 			}
-			#leftsidebar {
+			#leftSideBar {
 				padding:1%;border-radius:5%;box-shadow:0.5em 0.5em 1em #888888;
 				background:rgba(255,255,255,0.3);text-indent:1.5em;
-			}
-			#rightsodebar {
-				float:right;
 			}
 			#main {
 				width:70%;
@@ -89,17 +102,16 @@
 				text-decoration: none;overflow:inherit;
 				box-shadow:0.1em 0.1em 5px #888888;
 			}
+			.articleTitle:hover {
+				animation: 50ms A_titleMove forwards linear;
+			}
 			.articleTitle > .atitle {
 				font-size:3em;top:1em;
-				color:black;/*float:left;*/
+				color:black;float:left;
 				text-decoration: none;
 			}
 			.articleTitle > .pubdate, .articleTitle > .pubtime {
 				display:none;
-			}
-			#selpage .selpg {
-				font-size:2em;
-				margin:0.5em;
 			}
 			a {
 				text-decoration:none;
@@ -130,16 +142,36 @@
 				color:black;
 			}
 			.articleTitle > .index {
-				font-size:8em;float:right;
+				font-size:8em;
+                float:right;
 				font-family:digital,sans-serif;
-				background:url('http://www.pc18.com/uploadfile/2017/0216/20170216102047515.png') no-repeat center;
-				border-radius:50%;color:rgba(0,0,0,0.2);
-				height:100%;text-indent:0;
-				text-align:center;right:0;
+				border-radius:50%;
+                color:rgba(0,0,0,0.2);
+				height:100%;
+                text-indent:0;
+				text-align:center;
 			}
 			.articleTitle > .index:hover {
 				color:black;
 			}
+article {
+	color:rgb(255,255,255);
+	background:rgba(0,0,0,0.5);
+	padding:2em;
+	border-radius:1em;
+}
+#PageSel .P_sel {
+	font-size:2em;
+	margin:0.2em;
+	border:thick solid blue;
+	background:skyblue;
+	padding-left:0.3em;
+	padding-right:0.3em;
+	border-radius:2em;
+}
+#PageSel .P_sel:hover {
+	animation: 100ms PageSelHover linear forwards;
+}
 			.index .n0:before {
 				content: "0";
 			}
@@ -169,16 +201,4 @@
 			}
 			.index .n9:before {
 				content: "9";
-			}
-			article {
-				color:rgb(255,255,255);
-				background:rgba(0,0,0,0.5);
-				padding:2em;
-				border-radius:1em;
-			}
-			.selpg {
-				border:thick solid blue;
-				background:skyblue;
-				padding-left:0.5em;
-				padding-right:0.5em;
 			}
